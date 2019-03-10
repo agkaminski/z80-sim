@@ -5,6 +5,7 @@
 
 typedef void (*cpu_bus_write_t)(uint16_t address, uint8_t data);
 typedef uint8_t (*cpu_bus_read_t)(uint16_t address);
+typedef enum { low = 0, high } pin_state_t;
 
 typedef struct _cpu_register_bank {
 	uint8_t a, f;
@@ -29,12 +30,14 @@ typedef struct _cpu_callback {
 	cpu_bus_write_t io_write;
 } cpu_callback_t;
 
-void cpu_setRst(int state);
-void cpu_setIrq(int state);
-void cpu_setNmi(int state);
+void cpu_setRst(pin_state_t state);
+void cpu_setIrq(pin_state_t state);
+void cpu_setNmi(pin_state_t state);
+
+void cpu_getState(cpu_state_t *state);
 
 void cpu_execute(void);
 
-int cpu_init(cpu_callback_t *bus);
+void cpu_init(cpu_callback_t *init);
 
 #endif
